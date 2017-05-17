@@ -9,16 +9,9 @@
 #  is installed on the system.
 #
 class ethtool (
-  $ensure_installed = true
-) {
+  Boolean $ensure_installed = $::ethtool::params::ensure_installed
+) inherits ethtool::params {
 
-  validate_bool($ensure_installed)
-  if str2bool($ensure_installed) {
-    ensure_packages(['ethtool'])
-  }
-
-  if defined(Package['ethtool']) {
-    Package['ethtool'] -> Ethtool<| |>
-  }
+  include ethtool::install
 
 }
